@@ -381,13 +381,13 @@ in
       MTD_PSTORE = no;
       # Devices, users or debug config could enable this if needed
       PSTORE_BLK = no;
-      PSTORE_DEFLATE_COMPRESS = no;
-      PSTORE_LZO_COMPRESS = no;
-      PSTORE_LZ4_COMPRESS = no;
-      PSTORE_LZ4HC_COMPRESS = no;
-      PSTORE_842_COMPRESS = no;
-      PSTORE_ZSTD_COMPRESS = whenAtLeast "4.19" yes;
-      PSTORE_COMPRESS_DEFAULT = freeform ''"zstd"'';
+      PSTORE_DEFLATE_COMPRESS = whenOlder "6.5" (no);
+      PSTORE_LZO_COMPRESS = whenOlder "6.5" (no);
+      PSTORE_LZ4_COMPRESS = whenOlder "6.5" (no);
+      PSTORE_LZ4HC_COMPRESS = whenOlder "6.5" (no);
+      PSTORE_842_COMPRESS = whenOlder "6.5" (no);
+      PSTORE_ZSTD_COMPRESS = whenOlder "6.5" (whenAtLeast "4.19" yes);
+      PSTORE_COMPRESS_DEFAULT = whenOlder "6.5" (freeform ''"zstd"'');
     })
 
     (helpers: with helpers; mkDefaultIze {

@@ -19,6 +19,7 @@ let
     cfg.qualcomm-sdm660.enable
     cfg.qualcomm-sdm845.enable
     cfg.qualcomm-sm6125.enable
+    cfg.qualcomm-sm7150.enable
     cfg.qualcomm-apq8064-1aa.enable
   ];
 in
@@ -74,6 +75,11 @@ in
       default = false;
       description = lib.mdDoc "enable when SOC is SM6125";
     };
+    hardware.socs.qualcomm-sm7150.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = lib.mdDoc "enable when SOC is SM7150";
+    };
   };
 
   config = mkMerge [
@@ -128,6 +134,13 @@ in
       mobile = mkIf cfg.qualcomm-sm6125.enable {
         system.system = "aarch64-linux";
         quirks.fb-refresher.enable = true;
+      };
+    }
+    {
+      mobile = mkIf cfg.qualcomm-sm7150.enable {
+        system.system = "aarch64-linux";
+        quirks.fb-refresher.enable = true;
+        # boot.boot-control.enable = mkDefault true;
       };
     }
     {
