@@ -13,7 +13,6 @@
     compression = "xz";
     kernel = {
       package = pkgs.callPackage ./kernel { };
-      modular = true;
     };
   };
 
@@ -26,12 +25,18 @@
   # This is a workaround for non-modular kernels wanting to load the adsp firmware during stage-1.
   mobile.boot.stage-1.firmware = [
     (pkgs.runCommand "initrd-firmware" {} ''
-      cp -vrf ${config.mobile.device.firmware} $out
-      chmod -R +w $out
-      # Big file, fills and breaks stage-1
-      # rm -v $out/lib/firmware/qcom/sm7150/*/modem.mbn
+      surya="lib/firmware/qcom/sm7150/surya"
 
-      # Copy extra a630 firmware from linux-firmware
+      surya_src="${config.mobile.device.firmware}/$surya"
+      surya_dest="$out/$surya"
+
+      mkdir -vp $surya_dest
+
+      cp -vrf $surya_src/novatek_ts_huaxing_fw.bin $surya_dest
+      cp -vrf $surya_src/a615_zap.mbn $surya_dest
+
+      chmod -R +w $out
+
       cp -vf ${pkgs.linux-firmware}/lib/firmware/qcom/{a630_sqe.fw,a630_gmu.bin} $out/lib/firmware/qcom
     '')
   ];

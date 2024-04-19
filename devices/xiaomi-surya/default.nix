@@ -12,20 +12,6 @@
   };
   mobile.device.supportLevel = "supported";
 
-  mobile.boot.stage-1.kernel = {
-    modules = [
-      # These are modules because postmarketos builds them as
-      # modules.  Excepting that you only need one of the two
-      # panel modules (hardware-dependent) it might make more
-      # sense to build them monolithically. Unless you want to
-      # run your phone headlessly ...
-      "nt36xxx-spi"
-      "panel_huaxing_nt36672c"
-      "panel_tianma_nt36672c"
-      "qcom_wled"
-    ];
-  };
-
   mobile.hardware = {
     ram = 1024 * 6;
     screen = {
